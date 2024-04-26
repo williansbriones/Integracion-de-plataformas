@@ -5,6 +5,7 @@ import com.duocuc.motopapis.entity.UserEntity;
 import com.duocuc.motopapis.repository.UserRepository;
 import com.duocuc.motopapis.service.iface.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,11 +37,16 @@ public class UserServiceImpl implements UserService {
   @Override
   public Optional<UserDto> getUserById(Long id) {
     return this.userRepository.findById(id).map(UserDto::toUserDto);
-  } // Get the user by id and return the userDto
+  }
 
   @Override
   public List<UserDto> getAllUsers() {
     return userRepository.findAll().stream().map(UserDto::toUserDto).toList();
     // return  new ArrayList<UserDto>();
+  }
+
+  @Override
+  public Boolean existUser(Long id) {
+    return userRepository.existsById(id);
   }
 }

@@ -1,6 +1,7 @@
 package com.duocuc.motopapis.service.iface;
 
 import com.duocuc.motopapis.dto.UserDto;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,4 +13,6 @@ public interface UserService {
   Optional<UserDto> getUserById(Long id);
 
   List<UserDto> getAllUsers();
+
+  Boolean existUser(Long id);
 }

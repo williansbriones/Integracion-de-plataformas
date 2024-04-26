@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -44,7 +43,6 @@ public class UserController {
                     "302", HttpStatus.BAD_REQUEST, "Id is required", LocalDate.now()));
   }
 
-
   @GetMapping("/get/all")
   public ResponseEntity<List<UserDto>> getAllUsers() {
     List<UserDto> users = userService.getAllUsers();
@@ -54,55 +52,9 @@ public class UserController {
     return ResponseEntity.ok(users);
   }
 
-  @PostMapping("/divide")
-  public ResponseEntity<Divide> divide(@RequestBody Divide divide) {
-    Divide result = dividirEnteros(divide);
-     //return ResponseEntity.ok(result);
-    return ResponseEntity.ok(new Divide(divide.dividendo(), divide.divisor(), result.result()));
-  }
-
-  public Divide dividirEnteros(Divide divide) {
-
-    int contador = 0;
-    List<Float> integers = new ArrayList<>(Stream.of(divide.result()).toList());
-
-    while (divide.dividendo() > integers.get(contador)) {
-      integers.add(divide.divisor() + integers.get(contador));
-      contador++;
-    }
-    float dividendo = divide.dividendo();
-    float resultado = (integers.size() - 1);
-    if (divide.dividendo() != integers.get(contador)) {
-      resultado = (integers.size() - 2);
-      dividendo = concatenarfloats(dividendo - integers.get(contador - 1), 0, false);
-      Integer resultdecimal = dividirDecimales(new Divide(dividendo, divide.divisor(), 0));
-      resultado = concatenarfloats(resultado, resultdecimal, true);
-    }
-    return new Divide(dividendo, divide.divisor(), resultado);
-  }
-
-  public Integer dividirDecimales(Divide divide) {
-
-    int contador = 0;
-    List<Float> integers = new ArrayList<>(Stream.of(divide.result()).toList());
-
-    while (divide.dividendo() > integers.get(contador)) {
-      integers.add(divide.divisor() + integers.get(contador));
-      contador++;
-    }
-    return integers.size() - 1;
-  }
-
-  public float concatenarfloats(Float a, Integer b, boolean isdecimal) {
-    String aStr;
-
-    Integer aInt = a.intValue();
-    aStr = String.valueOf(aInt);
-
-    if (isdecimal) {
-      return Float.parseFloat(aStr + "." + b.toString());
-    } else {
-      return Float.parseFloat(aStr + b.toString());
-    }
+  @GetMapping("exist/user")
+  public ResponseEntity<Boolean> existUser(Long id) {
+    Boolean existUser = userService.existUser(id);
+    return new ResponseEntity<>(existUser, HttpStatus.OK);
   }
 }
