@@ -1,0 +1,20 @@
+INSERT INTO category_product (name, description)
+VALUES ('category1', 'description1');
+INSERT INTO category_product (name, description)
+VALUES ('category2', 'description2');
+INSERT INTO category_product (name, description)
+VALUES ('category3', 'description3');
+
+INSERT INTO product (name, description, id_category)
+VALUES ('product1', 'description1', 1);
+INSERT INTO product (name, description, id_category)
+VALUES ('product2', 'description2', 1);
+INSERT INTO product (name, description, id_category)
+VALUES ('product3', 'description3', 2);
+
+INSERT INTO price (product_id, price)
+VALUES (1, 100);
+INSERT INTO price (product_id, price)
+VALUES (2, 200);
+INSERT INTO price (product_id, price)
+VALUES (3, 300);

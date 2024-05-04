@@ -1,6 +1,6 @@
 package com.duocuc.motopapis.service;
 
-import com.duocuc.motopapis.dto.ProductDto;
+import com.duocuc.motopapis.dto.ProductExternalDto;
 import com.duocuc.motopapis.exeption.UserException;
 import com.duocuc.motopapis.service.iface.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class ProductServiceImpl implements ProductService {
   private final RestClient restClient = RestClient.create();
 
   @Override
-  public ProductDto getProductById(int id) {
+  public ProductExternalDto getProductById(int id) {
     return restClient
         .get()
         .uri("https://api.escuelajs.co/api/v1/products/{id}", id)
@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
                     HttpStatus.BAD_REQUEST,
                     "Error en el servidor");
 
-            }).body(ProductDto.class);
+            }).body(ProductExternalDto.class);
         //.exchange(
         //    (request, response) -> {
         //      if (response.getStatusCode().is4xxClientError()) {

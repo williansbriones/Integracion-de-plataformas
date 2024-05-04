@@ -1,14 +1,14 @@
 CREATE TABLE IF NOT EXISTS user_type
 (
     id          BIGSERIAL PRIMARY KEY,
-    name        varchar(100),
-    description varchar(1000)
+    name        VARCHAR(100),
+    description VARCHAR(1000)
 );
 
 CREATE TABLE IF NOT EXISTS store
 (
     id   BIGSERIAL PRIMARY KEY,
-    name VARCHAR(250) not null
+    name VARCHAR(250) NOT NULL
 );
 
 
@@ -38,10 +38,11 @@ CREATE TABLE IF NOT EXISTS product
 
 CREATE TABLE IF NOT EXISTS detail_invoice
 (
+    id         BIGSERIAL PRIMARY KEY,
     id_invoice BIGSERIAL, --CLEAR
     id_product BIGSERIAL, --CLEAR
     count      INTEGER,
-    unique (id_product, id_invoice)
+    UNIQUE (id_product, id_invoice)
 );
 CREATE TABLE IF NOT EXISTS category_product
 (
@@ -56,17 +57,21 @@ CREATE TABLE stock
 );
 CREATE TABLE price
 (
-    id    BIGSERIAL UNIQUE, --CLEAR
-    price INTEGER NOT NULL
+    id         BIGSERIAL PRIMARY KEY,
+    product_id BIGSERIAL UNIQUE REFERENCES product (id), --CLEAR
+    price      INTEGER NOT NULL
 );
 
 
-insert into user_type (name, description) values ('normal', 'normal user');
+INSERT INTO user_type (name, description)
+VALUES ('normal', 'normal user');
 
 ALTER TABLE users
     ADD COLUMN IF NOT EXISTS id_user_type BIGSERIAL NOT NULL;
 
-update users set id_user_type = 1 where id_user_type !=1;
+UPDATE users
+SET id_user_type = 1
+WHERE id_user_type != 1;
 
 ALTER TABLE users
     ADD CONSTRAINT fk_user_type_user FOREIGN KEY (id_user_type) REFERENCES user_type (id);
@@ -87,4 +92,4 @@ ALTER TABLE stock
     ADD CONSTRAINT fk_stock_product FOREIGN KEY (id) REFERENCES product (id);
 
 ALTER TABLE price
-    ADD CONSTRAINT fk_price_product FOREIGN KEY (id) references product (id);
+    ADD CONSTRAINT fk_price_product FOREIGN KEY (id) REFERENCES product (id);

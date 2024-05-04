@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: "motopapi"
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    #url: ${URL_DATA_BASE}
+    #username: ${DATABASE_USERNAME}
+    #password: ${DATABASE_PASSWORD}
+    url: ${URL_DATA_BASE:jdbc:postgresql://aws-0-sa-east-1.pooler.supabase.com:5432/postgres}
+    username: ${DATABASE_USERNAME:postgres.oskkthqxwfnabizsglth}
+    password: ${DATABASE_PASSWORD:motopapis2013#}
+    driver-class-name: org.postgresql.Driver
+management:
+  server:
+    dns-name: localhost
+    port: 8080

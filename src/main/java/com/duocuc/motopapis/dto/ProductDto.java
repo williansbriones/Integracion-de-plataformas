@@ -1,11 +1,12 @@
 package com.duocuc.motopapis.dto;
 
-import java.util.ArrayList;
 
 public record ProductDto(
-    int id,
-    String title,
-    int price,
-    String description,
-    Category category,
-    ArrayList<String> images) {}
+        Long id,
+        String name,
+        String description,
+        Long idCategory,
+        Integer price,
+        Integer count,
+        Integer total
+) {}

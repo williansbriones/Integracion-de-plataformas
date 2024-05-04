@@ -1,6 +1,7 @@
 package com.duocuc.motopapis.controller;
 
 import com.duocuc.motopapis.dto.ErrorDto;
+import com.duocuc.motopapis.exeption.FlowException;
 import com.duocuc.motopapis.exeption.InternalException;
 import com.duocuc.motopapis.exeption.UserException;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.LocalDate;
 
 @Slf4j
 @RestControllerAdvice
@@ -19,6 +22,12 @@ public class ControllerAdvice {
   public ResponseEntity<ErrorDto> UserExceptionHandler(UserException e) {
     return ResponseEntity.status(e.getRequest())
         .body(new ErrorDto(e.getCode(), e.getMessage(), e.getDate()));
+  }
+
+  @ExceptionHandler(value = FlowException.class)
+  public ResponseEntity<ErrorDto> FlowExceptionHandler(FlowException flowException) {
+    return ResponseEntity.status(flowException.getHttpStatusCode())
+        .body(new ErrorDto(flowException.getCode(), flowException.getMessage(), LocalDate.now()));
   }
 
   @ExceptionHandler(value = MethodArgumentNotValidException.class)

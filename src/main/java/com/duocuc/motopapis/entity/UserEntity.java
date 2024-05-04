@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Builder;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -32,4 +34,12 @@ public class UserEntity {
 
   @Column(name = "password")
   private String password;
+
+  @ManyToOne
+  @JoinColumn(name = "id_user_type")
+  private UserTypeEntity userType;
+
+  @OneToMany(mappedBy = "user")
+  private List<InvoiceEntity> invoices;
+
 }

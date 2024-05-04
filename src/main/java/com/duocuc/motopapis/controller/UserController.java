@@ -1,19 +1,19 @@
 package com.duocuc.motopapis.controller;
 
-import com.duocuc.motopapis.dto.Divide;
+import com.duocuc.motopapis.dto.FlowResponseDto;
 import com.duocuc.motopapis.dto.UserDto;
 import com.duocuc.motopapis.exeption.UserException;
+import com.duocuc.motopapis.service.iface.FlowService;
 import com.duocuc.motopapis.service.iface.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 public class UserController {
 
   private final UserService userService;
+  private final FlowService flowService;
 
   @PostMapping("/create")
   public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserDto userDto) {
@@ -56,5 +57,18 @@ public class UserController {
   public ResponseEntity<Boolean> existUser(Long id) {
     Boolean existUser = userService.existUser(id);
     return new ResponseEntity<>(existUser, HttpStatus.OK);
+  }
+
+
+
+
+  //test de flow service
+  @SneakyThrows
+  @PostMapping("get/test")
+  public FlowResponseDto getTest() {
+    FlowResponseDto x = flowService.CreateOrder(5001, "wi.briones@duocuc.cl");
+    return x.toBuilder().url(x.url() + "?token=" + x.token()).build();
+    // public LinkedMultiValueMap<String, String> param(){
+    //  return flowService.param();
   }
 }
