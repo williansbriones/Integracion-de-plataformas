@@ -1,7 +1,6 @@
 package com.duocuc.motopapis.util.iface;
 
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;

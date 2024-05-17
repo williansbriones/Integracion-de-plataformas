@@ -8,12 +8,13 @@ import com.duocuc.motopapis.repository.UserRepository;
 import com.duocuc.motopapis.repository.UserTypeRepository;
 import com.duocuc.motopapis.service.iface.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -47,6 +48,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<UserDto> getAllUsers() {
+    log.info("Request of the alls users");
     return userRepository.findAll().stream().map(UserDto::toUserDto).toList();
     // return  new ArrayList<UserDto>();
   }
