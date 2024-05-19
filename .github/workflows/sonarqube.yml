@@ -41,14 +41,12 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./gradlew build sonar --info
-
-        with:
-          args:
-            -Dsonar.projectKey=motopapis
-            -Dsonar.sources=src/main/java
-            -Dsonar.tests=src/test/java
-            -Dsonar.java.binaries=build/classes/java/main
-            -Dsonar.sonar.java.test.binaries=build/test-results/test
-            -Dsonar.sonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco.xml
+        run: |
+          ./gradlew build sonar --info \
+            -Dsonar.projectKey=motopapis \
+            -Dsonar.sources=src/main/java \
+            -Dsonar.tests=src/test/java \
+            -Dsonar.java.binaries=build/classes/java/main \
+            -Dsonar.sonar.java.test.binaries=build/test-results/test \
+            -Dsonar.sonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco.xml \
             -Dsonar.language=java
