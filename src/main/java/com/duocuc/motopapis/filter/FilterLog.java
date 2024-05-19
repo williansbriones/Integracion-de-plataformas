@@ -38,7 +38,6 @@ public class FilterLog extends OncePerRequestFilter {
     ContentCachingRequestWrapper req = new ContentCachingRequestWrapper(request);
     ContentCachingResponseWrapper resp = new ContentCachingResponseWrapper(response);
 
-    log.info("Encoding used: {}", getRequestCharset(req));
 
     log.info("info de contentipe: {}", req.getContentType());
     try {
@@ -48,8 +47,8 @@ public class FilterLog extends OncePerRequestFilter {
       byte[] requestBody = req.getContentAsByteArray();
       byte[] responseBody = resp.getContentAsByteArray();
 
-      log.info("request body = {}", new String(requestBody, getRequestCharset(req)));
-      log.info("response body = {}", new String(responseBody, getRequestCharset(req)));
+      log.info("request body = {}", new String(requestBody, getCharset(req.getContentType())));
+      log.info("response body = {}", new String(responseBody, getCharset(resp.getContentType())));
     }
 
     resp.copyBodyToResponse();
@@ -57,19 +56,24 @@ public class FilterLog extends OncePerRequestFilter {
     log.info("Status of request {}", resp.getStatus());
   }
 
-  private Charset getRequestCharset(HttpServletRequest request) {
-    String contentType = request.getContentType();
-    if (contentType != null) {
-      try {
-        MediaType mediaType = MediaType.parseMediaType(contentType);
-        if (mediaType.getCharset() != null) {
-          return mediaType.getCharset();
-        }
-      } catch (Exception e) {
-        log.error("error de software : {}", e.getMessage());
+  private Charset getCharset(String contentType) {
+    // try {
+    //  return Optional.ofNullable(request.getCharacterEncoding())
+    //      .map(MediaType::parseMediaType)
+    //      .map(MimeType::getCharset)
+    //      .orElse(StandardCharsets.UTF_8);
+    // } catch (Exception e) {
+    //  return StandardCharsets.UTF_8;
+    // }
+    try {
+      if (contentType == null) {
+        throw new RuntimeException("This is a error");
       }
-
-
+      MediaType mediaType = MediaType.parseMediaType(contentType);
+      if (mediaType.getCharset() != null) {
+        return mediaType.getCharset();
+      }
+    } catch (Exception ignored) {
     }
     return StandardCharsets.UTF_8;
   }

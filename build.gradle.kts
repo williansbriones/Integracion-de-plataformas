@@ -53,31 +53,33 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-val sonarProperties = Properties().apply {
-    file("sonar-project.properties").inputStream().use { load(it) }
-}
-
 sonar {
     properties {
-        property("sonar.verbose", "true")
-        sonarProperties.forEach { (key, value) ->
-            property(key.toString(), value)
-        }
-        property("sonar.sources", "src/main/java")
-        property("sonar.tests", "src/test/java")
-        property("sonar.language","java")
-        property("sonar.java.binaries", "build/classes/java/main")
-        property("sonar.java.test.binaries", "build/classes/java/test")
-        property("sonar.junit.reportPaths", "build/test-results/test")
-        property("sonar.sources", "src/main/java")
-        property("sonar.tests", "src/test/java")
-        property("sonar.java.binaries", "build/classes")
-        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco.xml")
-
-        // Excluir directorios dto y entity de los tests
-        property("sonar.exclusions", "src/main/java/com/motopapis/dto/**,src/main/java/com/motopapis/entity/**")
+        property("sonar.projectKey", "motopapis")
+        property("sonar.projectName", "motopapis")
     }
 }
+//sonar {
+//    properties {
+//        property("sonar.verbose", "true")
+//        sonarProperties.forEach { (key, value) ->
+//            property(key.toString(), value)
+//        }
+//        property("sonar.sources", "src/main/java")
+//        property("sonar.tests", "src/test/java")
+//        property("sonar.language","java")
+//        property("sonar.java.binaries", "build/classes/java/main")
+//        property("sonar.java.test.binaries", "build/classes/java/test")
+//        property("sonar.junit.reportPaths", "build/test-results/test")
+//        property("sonar.sources", "src/main/java")
+//        property("sonar.tests", "src/test/java")
+//        property("sonar.java.binaries", "build/classes")
+//        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco.xml")
+//
+//        // Excluir directorios dto y entity de los tests
+//        property("sonar.exclusions", "src/main/java/com/motopapis/dto/**,src/main/java/com/motopapis/entity/**")
+//    }
+//}
 
 
 
@@ -87,7 +89,7 @@ tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
         csv.required.set(false)
-        html.outputLocation = file("./build/jacocoHtml")
+        html.outputLocation = file("./build/reports/jacocoHtml")
         xml.outputLocation = file("./build/reports/jacoco.xml")
     }
     classDirectories.setFrom(
